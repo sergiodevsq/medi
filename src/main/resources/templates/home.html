@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+  		<meta content="width=device-width, initial-scale=1.0" name="viewport">
+  		<link th:href="@{/css/estilo.css}" rel="stylesheet" />
+  		<link th:href="@{/node_modules/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet"/>
+  		<link th:href="@{/node_modules/jquery/dist/DataTables1121/media/css/jquery.dataTables.min.css}" rel="stylesheet" />
+  		<link th:href="@{/node_modules/jquery/dist/DataTables1121/media/css/dataTables.bootstrap5.min.css}" rel="stylesheet" />	
+	</head>
+	<header id="header" class="header fixed-top d-flex align-items-center">	
+	</header>
+	
+	<aside id="sidebar" class="sidebar">
+	</aside>
+	
+	<main id="main" class="main">
+		<h5>Lista de Exames</h5>
+		<br /><br />	
+		<form id="form-controles">
+		    <div class="row">
+		        <div class="col-lg-2 col-sm-3" >
+		            <label for="data"></label>
+		            <input id="data" class="form-control" type="date" />
+		        </div>
+		        <div class="col-lg-2 col-sm-3" id="div-btnnovoexame">
+				    <select id="inputState" class="form-select">
+				      <option selected>Modalidade</option>
+				      <option>RM</option>
+				      <option>SA</option>
+				      <option>PV</option>
+				    </select>
+		        </div>
+		        <div class="col-lg-2 col-sm-3" id="div-btnnovoexame">
+		           <select id="inputState" class="form-select">
+				      <option selected>Filtro geral</option>
+				      <option>filtro1</option>
+				      <option>filtro2</option>
+				      <option>filtro3</option>
+				    </select>
+		        </div>
+		        <div class="col-lg-2 col-sm-3" id="div-btnnovoexame">
+		           
+		        </div>
+		        <div class="col-lg-2 col-sm-3" id="div-btnnovoexame">
+		           
+		        </div>
+		        <div class="col-lg-2 col-sm-3" id="div-btnnovoexame">
+		            <button type="button" class="btn btn-primary mb-2 form-control" id="btn-novoexame">Novo exame</button>
+		        </div>
+		    </div>
+		</form>    
+		<br /><br />
+		
+		<table id="lista-pacientes" class="table table-striped">
+			<thead>
+				<tr>
+					<th>ID Paciente</th>
+					<th>Paciente</th>
+					<th>Número</th>
+					<th>Tipo de exame</th>
+					<th>Modalidade</th>
+					<th>Data</th>
+					<th>Visualização</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="exame :${exames}">
+					<td th:text="${exame.getPaciente().getId()}"></td>
+					<td th:text="${exame.getPaciente().getNome()}"></td>
+					<td th:text="${exame.numero}"></td>
+					<td th:text="${exame.nome}"></td>
+					<td th:text="${exame.modalidade}"></td>
+					<td th:text="${exame.dataAgendamento}"></td>
+					<td> --- </td>
+				</tr>
+			</tbody>
+		</table>
+	
+	</main>
+	
+	<div class="modal" tabindex="-1" role="dialog" id="modal-novoexame">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title">Novo Exame</h5>
+	      </div>
+	      <div class="modal-body">
+	      
+	        <form class="row g-3" action="#" th:action="@{/gravarexame}" th:object="${exame}" method="POST">  
+			  <div class="col-12">  
+			    <label for="paciente" class="form-label">Paciente</label>
+			    <select id="paciente" name="paciente" class="form-select" field="*{paciente}">
+			      <option selected>Selecione</option>
+			      <option th:each="paciente : ${pacientes}" th:text="${paciente.nome}" th:value="${paciente.id}"></option>
+			    </select>
+			  </div>
+			  
+			  <div class="col-12">  
+			    <label for="nome" class="form-label">Tipo Exame</label>
+			    <select id="nome" name="nome" class="form-select" field="*{nome}">
+			      <option selected>Selecione</option>
+			      <option>ANGIO-RM ARTERIAL DE ABDOMEN</option>
+			    </select>
+			  </div>
+			  
+			  <div class="col-md-6">
+			  	<label for="dataAgendamento">Data abertura</label>
+		        <input id="dataAgendamento" name="dataAgendamento" class="form-control" type="date" field="*{dataAgendamento}"/>
+			  </div>
+			  
+			  <div class="col-md-6">
+			  	<label for="dataRealizacao">Data realização</label>
+		        <input id="dataRealizacao" name="dataRealizacao" class="form-control" type="date" field="*{dataRealizacao}"/>
+			  </div>
+			  
+			  <input type="hidden" id="numero" name="numero" value="59483-90" field="*{numero}" />
+			  
+			  <div class="col-md-6">
+			    <label for="modalidade" class="form-label">Modalidade</label>
+			    <select id="modalidade" name="modalidade" class="form-select" field="*{modalidade}">
+			      <option selected>Selecione</option>
+			      <option>RM</option>
+			      <option>SA</option>
+			      <option>PV</option>
+			    </select>
+			  </div>
+			  
+			
+			
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btn-fechar">Cancelar</button>
+		        <button type="submit" class="btn btn-primary" id="btn-gravar">Gravar</button>
+		      </div>
+	      </form>
+	    </div>
+	  </div>
+	</div>
+	
+	<footer id="footer" class="footer">
+	</footer>
+	
+		<script th:src="@{/node_modules/jquery/dist/jquery.min.js}"></script>	
+		<script th:src="@{/node_modules/bootstrap/dist/js/bootstrap.min.js}"></script>
+		<script th:src="@{/node_modules/jquery/dist/DataTables1121/media/js/jquery.dataTables.min.js}"></script>
+		<script th:src="@{/node_modules/jquery/dist/DataTables1121/media/js/dataTables.bootstrap5.min.js}"></script>
+		<script th:src="@{/scripts/main.js}"></script>
+</html>
+
+
+
+
+
+
