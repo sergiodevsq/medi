@@ -9,4 +9,7 @@
         Foram configurados valores iniciais para o banco de dados para facilitar os testes.
 
     
+    Para realizar o acesso à página execute via linha de comando pela pasta target:
+    java -jar med-0.0.1-SNAPSHOT.jar
     
+    Em seguida acesse http://localhost:8080/home
