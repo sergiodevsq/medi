@@ -1,4 +1,4 @@
-## TESTE MEDILAB ##
+## MEDILAB ##
 
     Nome: Sergio Ricardo de Paula Queiroz
 
